@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalogue - XML Lab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .student-info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .book-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .book-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .book-author {
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        .book-price {
+            color: #e74c3c;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .book-id {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Catalogue</h1>
+    <p class="student-info">Student: Deng Yifan | ID: 25014690</p>
+    <div id="bookList"></div>
+
+    <script>
+        fetch('book.xml')
+            .then(response => response.text())
+            .then(xmlText => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                const books = xmlDoc.getElementsByTagName('book');
+                const bookList = document.getElementById('bookList');
+
+                for (let i = 0; i < books.length; i++) {
+                    const book = books[i];
+                    const id = book.getAttribute('id');
+                    const title = book.getElementsByTagName('title')[0].textContent;
+                    const author = book.getElementsByTagName('author')[0].textContent;
+                    const price = book.getElementsByTagName('price')[0].textContent;
+
+                    const card = document.createElement('div');
+                    card.className = 'book-card';
+                    card.innerHTML = `
+                        <span class="book-id">ID: ${id}</span>
+                        <div class="book-title">${title}</div>
+                        <div class="book-author">Author: ${author}</div>
+                        <div class="book-price">$${price}</div>
+                    `;
+                    bookList.appendChild(card);
+                }
+            })
+            .catch(err => console.error('Fetch error: ' + err.message));
+    </script>
+</body>
+</html>

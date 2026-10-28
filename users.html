@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profiles - JSON Lab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .student-info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .user-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .user-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .user-email {
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+        .user-dob {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .detail-row {
+            margin: 4px 0;
+            color: #555;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        .badge-true {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-false {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profiles</h1>
+    <p class="student-info">Student: Deng Yifan | ID: 25014690</p>
+    <div id="userList"></div>
+
+    <script>
+        fetch('userProfiles.json')
+            .then(response => {
+                if (!response.ok)
+                    throw new Error('Fetch error: ' + response.status);
+                else
+                    return response.json();
+            })
+            .then(users => {
+                const userList = document.getElementById('userList');
+
+                users.forEach(user => {
+                    const card = document.createElement('div');
+                    card.className = 'user-card';
+                    card.innerHTML = `
+                        <div class="user-name">${user.firstName} ${user.lastName}</div>
+                        <div class="user-email">${user.email}</div>
+                        <div class="user-dob">Date of Birth: ${user.dateOfBirth}</div>
+                        
+                        <div class="section-title">Address</div>
+                        <div class="detail-row">Street: ${user.address.street}</div>
+                        <div class="detail-row">City: ${user.address.city}</div>
+                        <div class="detail-row">State: ${user.address.state}</div>
+                        <div class="detail-row">Zip Code: ${user.address.zipCode}</div>
+                        
+                        <div class="section-title">Preferences</div>
+                        <div class="detail-row">Theme: ${user.preferences.theme}</div>
+                        <div class="detail-row">Language: ${user.preferences.language}</div>
+                        <div class="detail-row">
+                            Notifications: 
+                            <span class="badge ${user.preferences.notifications ? 'badge-true' : 'badge-false'}">
+                                ${user.preferences.notifications ? 'ON' : 'OFF'}
+                            </span>
+                        </div>
+                        <div class="detail-row">
+                            Newsletter Subscription: 
+                            <span class="badge ${user.preferences.subscription ? 'badge-true' : 'badge-false'}">
+                                ${user.preferences.subscription ? 'Subscribed' : 'Not Subscribed'}
+                            </span>
+                        </div>
+                    `;
+                    userList.appendChild(card);
+                });
+            })
+            .catch(err => console.error('Fetch error: ' + err.message));
+    </script>
+</body>
+</html>
