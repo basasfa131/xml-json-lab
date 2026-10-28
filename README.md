@@ -45,13 +45,10 @@ JSON has been validated and is well-formed.
 
 ---
 
-## GitHub Pages Deployment
+## GitHub Pages Links
 
-To publish on GitHub Pages:
-1. Create a new repository on GitHub
-2. Upload all files to the repository
-3. Go to Settings → Pages → Select branch as `main`
-4. Your site will be available at: `https://<username>.github.io/<repo-name>/`
+**Repository:** https://github.com/basasfa131/xml-json-lab
 
-- Book Catalogue: `https://<username>.github.io/<repo-name>/index.html`
-- User Profiles: `https://<username>.github.io/<repo-name>/users.html`
+**Live Pages:**
+- Book Catalogue (XML Lab): https://basasfa131.github.io/xml-json-lab/index.html
+- User Profiles (JSON Lab): https://basasfa131.github.io/xml-json-lab/users.html
